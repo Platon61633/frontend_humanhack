@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Header from './header';
 // import Slider from '../slider';
 
 const Main = () => {
@@ -72,23 +73,7 @@ const Main = () => {
     
     return(
         <div className='Main'>
-            <header>
-                <div className="logo">
-                    <img src="/assets/logo.jpg" alt="" width={30} height={30}/>
-                    <h2>Textura</h2>
-                </div>
-                <menu>
-                    <div>
-                        Мои вещи
-                    </div>
-                    <div>
-                        Карта
-                    </div>
-                    <div>
-                        Контакты
-                    </div>
-                </menu>
-            </header>
+            <Header/>
             <main>
                 <div className='search'>
                     <input onChange={e=>SearchFunc(e.target.value)} placeholder="Поиск вещей" />
@@ -148,10 +133,10 @@ const Main = () => {
                         <option value="c-">по кол-ву по убыванию</option>
                         <option value="c+">по кол-ву по возрастанию</option>
                     </select>
-                    {/* <div onClick={()=>{
-                        console.log();
+                    <div onClick={()=>{
+                        console.log(Array(100));
                         
-                    }}>clck</div> */}
+                    }}>clck</div>
                     {SelectLocationShow?
                     <div className='select-location'>
                         {Array.from(new Set(Data.map(e=>e.location))).filter(e=>!SelectLocation.includes(e)).map((e, id)=>
@@ -159,11 +144,13 @@ const Main = () => {
                         )}
                     </div>
                     :null}
+                    <div className='count-column'>
+                        <label className="kol-vo_column">
+                            Кол-во колонок
+                        </label>
+                        <input type="text"onChange={e=>SetCountColumn(e.target.value)} value={CountColumn}/>
+                    </div>
                 </div>
-                <lable htmlFor='kol-vo_column' className="kol-vo_column">
-                    Кол-во колонок
-                </lable>
-                <input type="text" name='kol-vo_column' onChange={e=>SetCountColumn(e.target.value)} value={CountColumn}/>
                 <hr />
                 {SelectLocation.length!==0?
                 <div className='selected-location'>

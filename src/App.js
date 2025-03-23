@@ -2,7 +2,8 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './auth/login';
-import Main from './main/main';
+import Main from './main/stuff';
+import Contact from './main/contact';
 // import Login from './auth';
 
 function App() {
@@ -28,6 +29,11 @@ function App() {
                       exact
                       path='/main'
                       element={<Main/>}
+                    />
+                    <Route
+                      exact
+                      path='/contact'
+                      element={<Contact/>}
                     />
                 </Routes>
             </BrowserRouter>

@@ -61,13 +61,13 @@
 
 /* ----------Main---------------- */
 
-.Main .logo{
+header .logo{
     display: flex;
     gap: 10px;
     padding-left: 20px;
 }
 
-.Main header{
+header{
     display: flex;
     justify-content: space-between;
     padding: 20px 0;
@@ -79,7 +79,7 @@
     padding: 5px 15px;
 }
 
-.Main menu{
+menu{
     display: flex;
     gap: 50px;
     padding-right: 30px;
@@ -119,20 +119,21 @@
 
 .Main .filter{
     display: flex;
+    align-items: center;
     margin: 10px 0;
     gap: 30px;
     flex-wrap: wrap;
+}
+
+.Main .filter input{
+    width: 70px;
+    margin-left: 6px;
 }
 
 .Main .filter .weight{
     font-size: 15px;
     display: flex;
     flex-direction: column;
-}
-
-.Main .filter .weight .item{
-    display: flex;
-    gap: 5px;
 }
 
 .Main .select-location{
@@ -188,4 +189,50 @@
     margin: 5px 20px;
     font-size: 15px;
     padding: 2px 5px;
+}
+
+.Main .filter label{
+    font-size: 14px;
+}
+
+/* ----------Contact-------------- */
+
+.Contact .line{
+    width: 24000px;
+}
+.Contact .line:nth-child(2n){
+    animation: line 1000s infinite linear;
+}
+
+.Contact .line:nth-child(2n-1){
+    animation: line 1000s infinite linear reverse;
+}
+
+.Contact section{
+    overflow: hidden;
+}
+
+@keyframes line{
+    from{
+        transform: translateX(0%);
+    }
+    to{
+        transform: translateX(-20000px);
+    }
+    
+}
+
+.Contact main{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: white; */
+}
+
+.Contact main div{
+    background-color: rgb(242,242,242);
+    padding: 50px;
+    text-align: center;
 }
