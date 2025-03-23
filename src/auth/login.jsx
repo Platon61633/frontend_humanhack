@@ -15,7 +15,7 @@ const Login = () => {
             Cookies.set('email', email);
             Cookies.set('password', password)
             console.log('Успешный вход');
-            navigate('/main');
+            navigate('/main', {state: {email: email, password: password}});
         }else if(!isCookie){
             alert('Неверная почта или пароль.');
         }
