@@ -23,7 +23,7 @@ const Contact = () => {
                 </section>
                 <main>
                     <div>
-                        <p>tg: <a href="https://t.me/not_ALP">Платон</a> <a href="https://t.me/fname0">Климентий</a> <a href='https://t.me/@Artemkanoe'>Артём</a></p>
+                        <p>tg: <a href="https://t.me/not_ALP">Платон</a> <a href="https://t.me/fname0">Климентий</a> <a href='https://t.me/Artemkanoe'>Артём</a></p>
                         <img src="assets/tagan.png" alt="" width={200}/>
                     </div>
                     
