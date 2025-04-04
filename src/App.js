@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './auth/login';
 import Main from './main/stuff';
 import Contact from './main/contact';
+import Map from './main/map';
 // import Login from './auth';
 
 function App() {
@@ -34,6 +35,11 @@ function App() {
                       exact
                       path='/contact'
                       element={<Contact/>}
+                    />
+                    <Route
+                    exact
+                    path='/map'
+                    element={<Map/>}
                     />
                 </Routes>
             </BrowserRouter>
