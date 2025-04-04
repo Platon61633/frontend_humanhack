@@ -5,6 +5,7 @@ import Login from './auth/login';
 import Main from './main/stuff';
 import Contact from './main/contact';
 import Map from './main/map';
+import AddStuff from './main/addStuff';
 // import Login from './auth';
 
 function App() {
@@ -40,6 +41,11 @@ function App() {
                     exact
                     path='/map'
                     element={<Map/>}
+                    />
+                    <Route
+                    exact
+                    path='/add_stuff'
+                    element={<AddStuff/>}
                     />
                 </Routes>
             </BrowserRouter>

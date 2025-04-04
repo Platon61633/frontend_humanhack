@@ -195,6 +195,36 @@ menu{
     font-size: 14px;
 }
 
+.Main .option{
+    display: flex;
+}
+
+.Main .window{
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.445);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Main .window .delete-popup{
+    padding: 50px;
+    background-color: white;
+}
+
+.Main .window .delete-popup .buttons{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.Main .window .delete-popup .buttons button{
+    border-radius: 6px;
+    border: 1px solid black;
+    padding: 10px 15px;
+}
+
 /* ----------Contact-------------- */
 
 .Contact .line{
@@ -236,4 +266,41 @@ menu{
     background-color: rgb(242,242,242);
     padding: 50px;
     text-align: center;
+}
+
+/* --------------------map--------------------- */
+
+.main-map{
+    height: 70vh;
+    width: 70vw;
+}
+
+.leaflet-control-attribution.leaflet-control {
+    display: none;
+}
+
+/* img.leaflet-marker-icon.leaflet-zoom-animated.leaflet-interactive{
+    display: none;
+} */
+
+.leaflet-div-icon{
+    width: 50px;
+    height: 50px;
+}
+
+
+/* ---------------------AddStuff------------------------------------ */
+
+.AddStuff main{
+    margin-left: 50px;
+}
+
+.AddStuff main h1{
+    margin-bottom: 20px;
+}
+
+.AddStuff main .item{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
 }

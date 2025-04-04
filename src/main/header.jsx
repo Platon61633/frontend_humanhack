@@ -13,6 +13,9 @@ const Header = () => {
                         <Link to="/main" style={{color: 'black', textDecoration: 'none'}}>Главная</Link>
                     </div>
                     <div>
+                        <Link style={{color: 'black', textDecoration: 'none'}} to="/add_stuff" >Добавить</Link>
+                    </div>
+                    <div>
                         <Link to='/map' style={{color: 'black', textDecoration: 'none'}}>Карта</Link>
                     </div>
                     <div>

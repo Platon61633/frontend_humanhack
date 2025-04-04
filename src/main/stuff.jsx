@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Header from './header';
+import axios from 'axios';
+import edit from '../img/edit.svg';
+import trash from '../img/trash.svg';
 // import Slider from '../slider';
 
 const Main = () => {
@@ -17,6 +20,8 @@ const Main = () => {
     const [Search , SetSearch] = useState('');
 
     const [CountColumn , SetCountColumn] = useState(Math.floor(window.innerWidth/240));
+    
+    // const [ fetchData, SetfetchData] = useState([]);
     
     
     
@@ -39,24 +44,27 @@ const Main = () => {
 
     useEffect(
         ()=>{
-            const fetchData = [
-                {title: 'Шкаф', weight: 4.5, sum: 1, location: 'ул. Фрунзе', img: 'photo_1.jpg'},
-                {title: 'Табурет', weight: 0.9, sum: 5, location: 'ул. Кирова', img: 'photo_2.jpg'},
-                {title: 'Диван', weight: 7.1, sum: 2, location: 'ул. Тимирязева', img: 'photo_3.jpg'},
-                {title: 'Стол', weight: 1.11, sum: 2, location: 'ул. Ленина', img: 'photo_4.jpg'},
-                {title: 'Тумба', weight: 4.47, sum: 1, location: 'ул. Володарского', img: 'photo_5.jpg'},
-                {title: 'Кресло', weight: 8, sum: 2, location: 'ул. Кирова', img: 'photo_6.jpg'},
-                {title: 'Комод', weight: 5.7, sum: 3, location: 'ул. Фрунзе', img: 'photo_7.jpg'},
-                {title: 'Полка', weight: 5.7, sum: 2, location: 'ул. Фрунзе', img: 'photo_8.jpg'},
-                {title: 'Мука', weight: 4, sum: 2, location: 'ул. Ленина', img: 'photo_9.jpg'},
-                {title: 'Компьютер', weight: 1.2, sum: 2, location: 'ул. Фрунзе', img: 'photo_10.jpg'},
-            ]
-            SetData(
-                fetchData
-            )
-            SetmaxWeight(Math.max(...fetchData.map(e=>e.weight)))
-            SetminWeight(Math.min(...fetchData.map(e=>e.weight)))
-            SetSearch(fetchData.map((e,id)=>id))
+
+            axios.get('http://95.174.102.106:5000/').then(e=>{
+                SetData(e.data)
+                
+                SetmaxWeight(Math.max(...e.data.map(e=>e.weight)))
+                SetminWeight(Math.min(...e.data.map(e=>e.weight)))
+                SetSearch(e.data.map((e,id)=>id))
+            })
+            // [
+            //     {title: 'Шкаф', weight: 4.5, sum: 1, location: 'ул. Фрунзе', img: 'photo_1.jpg'},
+            //     {title: 'Табурет', weight: 0.9, sum: 5, location: 'ул. Кирова', img: 'photo_2.jpg'},
+            //     {title: 'Диван', weight: 7.1, sum: 2, location: 'ул. Тимирязева', img: 'photo_3.jpg'},
+            //     {title: 'Стол', weight: 1.11, sum: 2, location: 'ул. Ленина', img: 'photo_4.jpg'},
+            //     {title: 'Тумба', weight: 4.47, sum: 1, location: 'ул. Володарского', img: 'photo_5.jpg'},
+            //     {title: 'Кресло', weight: 8, sum: 2, location: 'ул. Кирова', img: 'photo_6.jpg'},
+            //     {title: 'Комод', weight: 5.7, sum: 3, location: 'ул. Фрунзе', img: 'photo_7.jpg'},
+            //     {title: 'Полка', weight: 5.7, sum: 2, location: 'ул. Фрунзе', img: 'photo_8.jpg'},
+            //     {title: 'Мука', weight: 4, sum: 2, location: 'ул. Ленина', img: 'photo_9.jpg'},
+            //     {title: 'Компьютер', weight: 1.2, sum: 2, location: 'ул. Фрунзе', img: 'photo_10.jpg'},
+            // ]
+            
             
         }, []
     )
@@ -69,10 +77,64 @@ const Main = () => {
     
 
 
-    // const [Value , SetValue] = useState();
+    const [CheckDelete , SetCheckDelete] = useState(false);
+    const [DataDelete , SetDataDelete] = useState(
+        {title:'', id: null}
+    );
+    
+    const check_delete_func = async(id, title)=>{
+        await SetDataDelete({title: title, id: id})
+        SetCheckDelete(true)
+    }
+
+    const deleteFunc = async(id)=>{
+            await axios.post('http://95.174.102.106:5000/delete',
+                {id: id}
+            ).then(e=>console.log(e.data))
+            window.location.reload();
+            // console.log(id);
+            
+    }
+
+    // const check_delete_func = async(id, title)=>{
+    //     await SetDataDelete({title: title, id: id})
+    //     SetCheckDelete(true)
+    // }
+
+    // const deleteFunc = async(id)=>{
+    //         await axios.post('http://95.174.102.106:5000/delete',
+    //             {id: id}
+    //         ).then(e=>console.log(e.data))
+    //         window.location.reload();
+    //         // console.log(id);
+            
+    // }
     
     return(
         <div className='Main'>
+            {
+                CheckDelete?
+                <div className="window">
+                    <div className='delete-popup'>
+                        <p>Вы уверены, что хотите удалить {DataDelete.title}?</p>
+                        <div className="buttons">
+                            <button onClick={async ()=>{
+                                await SetCheckDelete(false)
+                                await deleteFunc(DataDelete.id)
+                                // window.location.reload();
+                            }}>Да</button>
+                            <button
+                            onClick={e=>{
+                                SetCheckDelete(false)                            }}>Нет</button>
+                        </div>
+
+                    </div>
+                </div>
+                :null
+            }
+            {
+
+            }
             <Header/>
             <main>
                 <div className='search'>
@@ -133,10 +195,10 @@ const Main = () => {
                         <option value="c-">по кол-ву по убыванию</option>
                         <option value="c+">по кол-ву по возрастанию</option>
                     </select>
-                    <div onClick={()=>{
+                    {/* <div onClick={()=>{
                         console.log(Array(100));
                         
-                    }}>clck</div>
+                    }}>clck</div> */}
                     {SelectLocationShow?
                     <div className='select-location'>
                         {Array.from(new Set(Data.map(e=>e.location))).filter(e=>!SelectLocation.includes(e)).map((e, id)=>
@@ -193,6 +255,14 @@ const Main = () => {
                                 <div className="weight">Вес: {e.weight} кг</div>
                                 <div className="sum">Кол-во: {e.sum}</div>
                                 <div className="location">Место хран.: {e.location}</div>
+                                <hr style={{margin: '10px 0'}}/>
+                                <div className="option">
+                                    <img src={edit} alt="" height={40}/>
+                                    <img src={trash} onClick={()=>check_delete_func(e.id, e.title)
+                                    } alt="" height={40} />
+                                </div>
+                                
+
                             </div>
                         )        
                     })}
