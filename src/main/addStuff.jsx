@@ -7,7 +7,7 @@ const AddStuff = () => {
     const [Title , SetTitle] = useState();
     const [Weight , SetWeight] = useState();
     const [Sum , SetSum] = useState();
-    const [Location , SetLocation] = useState();
+    const [Location , SetLocation] = useState('ул. Фрунзе');
 
     
     
@@ -52,7 +52,7 @@ const AddStuff = () => {
                     </label>
                     <select name='location' onChange={e=>SetLocation(e.target.value)}>
                         <option value="Выберите" disabled>Выберите</option>
-                        <option value="ул. Фрунзе">ул.Фрунзы</option>
+                        <option value="ул. Фрунзе">ул. Фрунзе</option>
                         <option value="ул. Ленина">ул. Ленина</option>
                         <option value="ул. Темирзяева">ул. Темирзяева</option>
                         <option value="ул. Дзержинского">ул. Дзержинского</option>

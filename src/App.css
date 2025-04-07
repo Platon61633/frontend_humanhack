@@ -225,6 +225,24 @@ menu{
     padding: 10px 15px;
 }
 
+.Main .window .edit{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 40px;
+    gap: 10px;
+}
+
+.Main .window .edit .item{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.Main .main-map{
+    height: 300px;
+}
+
 /* ----------Contact-------------- */
 
 .Contact .line{
@@ -271,11 +289,15 @@ menu{
 /* --------------------map--------------------- */
 
 .main-map{
-    height: 70vh;
-    width: 70vw;
+    height: 80vh;
+    width: 50vw;
 }
 
 .leaflet-control-attribution.leaflet-control {
+    display: none;
+}
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar  {
     display: none;
 }
 
@@ -288,6 +310,38 @@ menu{
     height: 50px;
 }
 
+.Map .view .item{
+    border-radius: 1px solid black;
+}
+
+.Map .view{
+    text-align: center;
+}
+
+.Map section:nth-child(2){
+    width: 50vw;
+}
+
+.Map main{
+    display: flex;
+}
+
+.Map .cards{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin:  50px 15vw;
+    /* width: 20vw; */
+}
+
+.Map .vnimanie{
+    margin: 50px;
+    padding: 200px 20px;
+    background-color: rgb(194, 194, 194);
+    border-radius: 6px;
+    text-align: center;
+}
 
 /* ---------------------AddStuff------------------------------------ */
 

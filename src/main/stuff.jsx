@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Header from './header';
 import axios from 'axios';
-import edit from '../img/edit.svg';
-import trash from '../img/trash.svg';
+
+
+import L from "leaflet";
+import "leaflet-routing-machine";
+import { MapContainer, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
+import '../leaflet.css'
+// import { iconPerson } from './marker-icon';
+import '../leaflet-routing-machine.css'
+import Routing from '../shnups/Routing';
+import Card from './card';
 // import Slider from '../slider';
 
 const Main = () => {
@@ -81,6 +89,30 @@ const Main = () => {
     const [DataDelete , SetDataDelete] = useState(
         {title:'', id: null}
     );
+
+    const [EditFlag , SetEditFlag] = useState(false);
+
+    const [EditData , SetEditData] = useState(
+        {title:'', weight: 0, sum: 0, location: '', img: '', id: null}
+    );
+
+    const [EditTitle , SetEditTitle] = useState('');
+    const [EditWeight , SetEditWeight] = useState('');
+    const [EditSum , SetEditSum] = useState('');
+    const [EditLocation , SetEditLocation] = useState('');
+
+    const location = {
+        'ул. Фрунзе': [47.209517356257635,38.93479207262902],
+        'ул. Кирова': [47.25882858660511,38.92057928559243],
+        'ул. Темирзяева': [47.237870428135125,38.92654276406507],
+        'ул. Дзержинского': [47.23525997856578,38.91693934775898],
+        'ул. Ленина': [47.22789567176139,38.909361161253855]
+    }
+    
+    
+    
+    
+    
     
     const check_delete_func = async(id, title)=>{
         await SetDataDelete({title: title, id: id})
@@ -94,6 +126,32 @@ const Main = () => {
             window.location.reload();
             // console.log(id);
             
+    }
+
+    const edit_func = async(e)=>{
+        console.log(e);
+        e.weight = e.weight.toString()
+        
+        SetEditData(e)
+        SetEditFlag(true)
+        SetEditTitle(e.title)
+        SetEditWeight(e.weight)
+        SetEditSum(e.sum)
+        SetEditLocation(e.location)
+    }
+
+    const save_edit = async()=>{
+        await axios.post('http://95.174.102.106:5000/edit',
+            {
+                id: EditData.id,
+                title: EditTitle,
+                weight: EditWeight,
+                sum: EditSum,
+                location: EditLocation,
+                img: EditData.img
+            }
+        )
+        window.location.reload();
     }
 
     // const check_delete_func = async(id, title)=>{
@@ -114,8 +172,8 @@ const Main = () => {
         <div className='Main'>
             {
                 CheckDelete?
-                <div className="window">
-                    <div className='delete-popup'>
+                <div className="window" onClick={()=>SetCheckDelete(false)}>
+                    <div className='delete-popup' onClick={e=>e.stopPropagation()}>
                         <p>Вы уверены, что хотите удалить {DataDelete.title}?</p>
                         <div className="buttons">
                             <button onClick={async ()=>{
@@ -132,8 +190,56 @@ const Main = () => {
                 </div>
                 :null
             }
-            {
-
+            {EditFlag
+            ?
+            <div className="window" onClick={()=>SetEditFlag(false)}>
+                <div className='edit' onClick={e=>e.stopPropagation()}>
+                    <div className="item">
+                        <label htmlFor="">Изменить название</label>
+                        <input value={EditTitle} onChange={e=>SetEditTitle(e.target.value)} type="text" />
+                    </div>
+                    <div className="item">
+                        <label htmlFor="">Изменить место хранинения</label>
+                        <select name="" id="" onChange={(e)=>SetEditLocation(e.target.value)}>
+                            {Object.keys(location).map(e=>
+                                <option value={e} selected={e===EditLocation}>{e}</option>
+                            )}
+                        </select>
+                    </div>
+                    <div className="item">
+                        <label htmlFor="">Изменить вес</label>
+                        <input value={EditWeight} onChange={e=>SetEditWeight(e.target.value)} type="text" />
+                    </div>
+                    <div className="item">
+                        <label htmlFor="">Изменить кол-во</label>
+                        <input value={EditSum} onChange={e=>SetEditSum(Number(e.target.value))} type="text" />
+                    </div>
+                    <button onClick={save_edit} 
+                    disabled={EditData.location===EditLocation && EditData.weight===EditWeight && EditData.title===EditTitle && EditData.sum===EditSum}>Сохранить</button>
+                    <div className="map">
+                <MapContainer
+                    className='main-map'
+                  //  style={{height: '700px'}}
+                    center={[EditData.lat, EditData.lng]}
+                    zoom={17}
+                  >
+                    <Marker
+                    position={[EditData.lat, EditData.lng]}
+                    // icon={ iconPerson }
+                    title={'Сюда'}
+                    >
+                </Marker>
+                    <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Routing sourceCity={L.latLng(EditData.lat, EditData.lng)} destinationCity={L.latLng(location[EditLocation][0],location[EditLocation][1])} flag={EditLocation!==EditData.location}/>
+                </MapContainer>
+                </div>
+                </div>
+            </div>
+            :
+            null
             }
             <Header/>
             <main>
@@ -249,21 +355,7 @@ const Main = () => {
                             .map((e, id)=>{
 
                         return(
-                            <div className='item-main' key={id}>
-                                <img src={`https://img-items.vercel.app/${e.img}`} alt=""/>
-                                <div className="title">{e.title}</div>
-                                <div className="weight">Вес: {e.weight} кг</div>
-                                <div className="sum">Кол-во: {e.sum}</div>
-                                <div className="location">Место хран.: {e.location}</div>
-                                <hr style={{margin: '10px 0'}}/>
-                                <div className="option">
-                                    <img src={edit} alt="" height={40}/>
-                                    <img src={trash} onClick={()=>check_delete_func(e.id, e.title)
-                                    } alt="" height={40} />
-                                </div>
-                                
-
-                            </div>
+                            <Card key={id} e={e} edit_func={edit_func} check_delete_func={check_delete_func} ismain={true}/>
                         )        
                     })}
                 </div>
