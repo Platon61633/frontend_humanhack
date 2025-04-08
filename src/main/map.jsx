@@ -89,7 +89,7 @@ const Map = () => {
       <main>
         <section>
           <MapContainer
-            className='main-map'
+            className='main-map-map'
           //  style={{height: '700px'}}
             center={[47.23841788563882,38.91167179079163]}
             zoom={13}
@@ -145,8 +145,8 @@ const Map = () => {
           }
         </section>
       </main>
-      <div onClick={()=>console.log(12%5)
-      }>click</div>
+      {/* <div onClick={()=>console.log(12%5)
+      }>click</div> */}
     </div>
   );
 };

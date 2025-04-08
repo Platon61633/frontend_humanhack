@@ -201,8 +201,8 @@ const Main = () => {
                     <div className="item">
                         <label htmlFor="">Изменить место хранинения</label>
                         <select name="" id="" onChange={(e)=>SetEditLocation(e.target.value)}>
-                            {Object.keys(location).map(e=>
-                                <option value={e} selected={e===EditLocation}>{e}</option>
+                            {Object.keys(location).map((e, id)=>
+                                <option key={id} value={e} selected={e===EditLocation}>{e}</option>
                             )}
                         </select>
                     </div>
